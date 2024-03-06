@@ -1,10 +1,9 @@
 from flask import Flask, render_template
-from os import environ
+from .config import env
 
-env = dict(environ)
-
-def create_app(testing=False):
+def create_app(config='DevelopmentConfig'):
 	app = Flask(__name__)
+	app.config.from_object('sushiapp.config.' + config)
 	@app.route('/')
 	def test():
 		return render_template('index.html')
