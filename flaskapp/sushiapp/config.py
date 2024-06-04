@@ -4,6 +4,7 @@ env = dict(environ)
 
 class Config(object):
 	TESTING = False
+	SECRET_KEY = env['SECRET_KEY']
 
 class TestingConfig(Config):
 	TESTING = True
