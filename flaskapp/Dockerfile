@@ -1,5 +1,6 @@
 FROM		python:latest
 WORKDIR		/flaskapp
+
 COPY		./requirements.txt	.
 
 RUN			pip install -r requirements.txt

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Oishi Sushi - {% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+<script>
+async function updateCart() {
+	const totalCounter = document.getElementById("total");
+	const response = await fetch("/api/order/total");
+	totalFromAPI = await response.json();
+	totalCounter.innerHTML = totalFromAPI.total;
+	if (totalFromAPI.total > 0) {
+		const checkoutButton = document.getElementById("checkoutbutton");
+		const checkoutLink = document.getElementById("checkoutlink");
+		checkoutButton.style.opacity = 1.0;
+		checkoutLink.setAttribute("href", "{{ url_for('home.home') }}");
+	}
+}
+</script>
+{% block js %}{% endblock %}
+</head>
+<body onload="updateCart()">
+<div class="ribbon">
+	<h1>Oishi Sushi</h1>
+	<div class="tabsmenu">
+		{% for tab in tabs %}
+			<a class="tab" href="{{ url_for(tab.url) }}">{{ tab.text }}</a>
+		{% endfor %}
+	</div>
+	{% block content %}{% endblock %}
+	<div id="footer">
+		<div id="checkoutbutton">
+			<span id="total"></span> in cart<br>
+			<a id="checkoutlink">To Checkout</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

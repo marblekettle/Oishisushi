@@ -1,23 +1,29 @@
-version: "3"
 services:
   database:
     image: postgres:latest
     environment:
-      - POSTGRES_DB=sushi
       - POSTGRES_USER=sushi
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=sushi
   flaskapp:
     build: ./flaskapp
+    depends_on:
+      - database
     volumes:
-      - ./flaskapp/app:/flaskapp/app
+      - ./flaskapp:/flaskapp
     environment:
       - ENV=development
       - FLASK_DEBUG=1
+      - FLASK_APP=sushiapp
       - SECRET_KEY=${SECRET_KEY}
-      - POSTGRES_DB=sushi
       - POSTGRES_USER=sushi
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=oishisushi-database-1
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=sushi
   proxy:
     build: ./proxy
+    depends_on:
+      - flaskapp
     ports:
       - "8080:80"
