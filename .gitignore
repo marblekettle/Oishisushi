@@ -4,3 +4,4 @@ __pycache__
 sushiapp.egg-info
 .coverage
 .pytest_cache
+test.db
