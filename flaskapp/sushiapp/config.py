@@ -8,10 +8,10 @@ class Config(object):
 
 class TestingConfig(Config):
 	TESTING = True
-	DATABASE_URI = 'sqlite://'
+	DATABASE_URI = 'sqlite:///test.db'
 
 class DevelopmentConfig(Config):
-	DATABASE_URI = 'postgres+psycopg://{}:{}@{}:{}/{}'.format(
+	DATABASE_URI = 'postgresql+psycopg://{}:{}@{}:{}/{}'.format(
 		env['POSTGRES_USER'],
 		env['POSTGRES_PASSWORD'],
 		env['POSTGRES_HOST'],
