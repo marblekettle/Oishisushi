@@ -5,7 +5,8 @@ An app for my favorite food
 
 Requires Python 3.x and Docker to be installed.
 Supply a .env file with two lines for setting `POSTGRES_PASSWORD` and `SECRET_KEY`. Example:
-```POSTGRES_PASSWORD=a_good_p4ssword
+```
+POSTGRES_PASSWORD=a_good_p4ssword
 SECRET_KEY=veryverysecret123
 ```
 

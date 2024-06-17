@@ -52,25 +52,29 @@ def test_api_emptycart(client):
 	res = client.get('/api/order/total')
 	assert res.json['total'] == 0
 
-def test_db(client):
+def test_db(dbclient):
 	assert os.path.exists('test.db')
 
-def test_api_items(client):
-	res = client.get('/api/item/')
+def test_api_items(dbclient):
+	res = dbclient.get('/api/item/')
 	assert res.status_code == 200
 
-def test_api_newitem(client):
-	res = client.post('/api/item/new',
+def test_api_newitem(dbclient):
+	res = dbclient.post('/api/item/new',
 		data=json.dumps({'name': ''.join(['a'] * 410), 'price': '200'}), headers=jsonheaders
 	)
 	assert res.status_code == 400 and b'Error: Name' in res.data
-	res = client.post('/api/item/new',
+	res = dbclient.post('/api/item/new',
 		data=json.dumps({'name': 'Shrimp tempura', 'price': 'aaa'}), headers=jsonheaders
 	)
 	assert res.status_code == 400 and b'Error: Invalid' in res.data
-	res = client.post('/api/item/new',
+	res = dbclient.post('/api/item/new',
 		data=json.dumps({'name': 'Shrimp tempura', 'price': '200'}), headers=jsonheaders
 	)
 	assert res.status_code == 200
-	res = client.get('/api/item/')
+	res = dbclient.get('/api/item/')
 	assert b'Shrimp tempura' in res.data
+
+def test_admin(client):
+	res = client.get('/admin/')
+	assert res.status_code == 200

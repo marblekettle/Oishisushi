@@ -1,4 +1,5 @@
 #!/bin/bash
+rm test.db
 . venv/bin/activate
 pip install -e .
 export POSTGRES_USER=_

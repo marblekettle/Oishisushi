@@ -5,13 +5,17 @@ from sqlalchemy import select
 
 bp = Blueprint('api_item', __name__, url_prefix='/item')
 
-@bp.route('/')
 @uses_database
-def getMenuItems():
+def menuItems():
 	items = []
 	if 'db' in g:
-		items = [i.name for i in g.db.scalars(select(MenuItem)).all()]
-	return str(items), 200
+		items = [i for i in g.db.scalars(select(MenuItem)).all()]
+	return items
+
+@bp.route('/')
+def getMenuItems():
+	items = [{"name": i.name, "price": i.price} for i in menuItems()]
+	return jsonify(items), 200
 
 @bp.route('/new', methods=['POST'])
 @uses_database
